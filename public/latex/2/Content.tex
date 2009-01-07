@@ -1,0 +1,90 @@
+\documentclass[12pt]{book}
+\usepackage{mathtext}         % если нужны русские буквы в формулах (не обязательно)
+\usepackage[T2A]{fontenc}     % внутренняя T2A кодировка TeX
+\usepackage[koi8-r]{inputenc} % кодировка - можно использовать [cp866] [cp1251]
+\usepackage[russian]{babel}   % включение переносов
+\usepackage[pdftex]{graphicx}
+\DeclareSymbolFont{T2Aletters}{T2A}{cmr}{m}{it}
+
+\usepackage{amsmath,amsfonts,amssymb, euscript}
+\usepackage{latexsym,euscript}
+\usepackage{amsmath}
+\titlepage
+\topmargin=0 cm
+\textheight=22 cm
+\newcommand{\xxxxPr}{\ensuremath{\mathbb R ^n}}
+\newcommand{\Prm}{\mathbb R ^{n\times n}}
+\newcommand{\bq}{\begin{equation}}
+\newcommand{\eq}{\end{equation}}
+\newcommand{\bm}{\begin{pmatrix}}
+\newcommand{\enm}{\end{pmatrix}}
+
+\newcommand{\Zam}{\par\smallskip
+{\it Замечание.}  }
+
+\newcommand{\psm}{\par\smallskip}
+
+\newcommand{\ZamD}{\par\smallskip
+{\it Замечание ДНП. }}
+
+\newcommand{\Def}{\par\smallskip
+\addtocounter{Def}{1}
+{\bf Определение \arabic{Def}. }}
+
+\newcommand{\la}{\lambda}
+\newcommand{\vp}{\varphi}
+\newcommand{\kd}{\rule{8pt}{8pt}\psm}
+\newcommand{\lqs}{\leqslant}
+\newcommand{\slk}[1]{(\ref{#1})}
+\newcommand{\wt}[1]{\widetilde{#1}}
+\newcommand{\Kon}{\par\smallskip}
+\newcommand{\ih}{$\pmb x_i$}
+\newcommand{\nfT}{\nabla f(\xc)^T}
+\newcommand{\nfTp}{\nabla f(\xp)^T}
+\newcommand{\nf}{\nabla f(\xc)}
+\newcommand{\nnf}{\nabla^2f(\xc)}
+\newcommand{\phk}{$\{\pmb x_k\}$}
+\newcommand{\prh}{$\{\pmb x_i\}_{i=1}^\infty$}
+\newcommand{\ph}{$\{\pmb x_i\}$}
+\newcommand{\zh}{\ensuremath{\pmb x_*}}
+\newcommand{\xk}{\ensuremath{\pmb x_k}}
+\newcommand{\xc}{\ensuremath{\pmb x_c}}
+\newcommand{\xx}{\ensuremath{\pmb x}}
+\newcommand{\yy}{\ensuremath{\pmb y}}
+\newcommand{\KK}{\ensuremath{\pmb x^K}}
+\newcommand{\NN}{\ensuremath{\pmb x^M}}
+\newcommand{\xz}{\ensuremath{\pmb x_0}}
+\newcommand{\xw}{\ensuremath{\pmb x_1}}
+\newcommand{\dc}{\ensuremath{\delta_c}}
+\newcommand{\sm}{\ensuremath{\pmb s(\mu)}}
+\newcommand{\xt}{\ensuremath{\pmb x_2}}
+\newcommand{\pp}{\ensuremath{\pmb p}}
+\newcommand{\ps}{\ensuremath{\pmb s}}
+\newcommand{\xp}{\ensuremath{\pmb x_{\scriptscriptstyle+}}}
+\newcommand{\sn}{\ensuremath{\pmb s^N}}
+\newcommand{\ep}{\varepsilon}
+\newcommand{\mep}{macheps}
+\newcommand{\func}{\ensuremath{f:\xxxxPr \to \mathbb R}}
+\textwidth=16cm
+\begin{document}
+\oddsidemargin=0pt
+\title{ЧИСЛЕННЫЕ МЕТОДЫ В ЗАДАЧАХ ОПТИМИЗАЦИИ}
+\author{А.С.ПЯРТЛИ}
+\maketitle
+\newcounter{Def}
+\newcounter{Rem}
+\newtheorem{Th}{Теорема}
+\newtheorem{Tl}{Лемма}
+\input{Def1}
+\input{Problem1}
+\input{Conv1}
+\input{Newton_min1}
+\input{LES1}
+\input{Modification1}
+\input{Correction1}
+\input{BelReg}
+\input{BreakStep}
+\input{Change}
+\input{final}
+\input{Bib.tex}
+\end{document}
