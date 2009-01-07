@@ -1,41 +1,39 @@
-// Elements definition ------------------------------------
+jsToolBar.prototype.elements.strong = {
+	type: 'button',
+	title: 'Strong',
+	fn: {
+		wiki: function()  { this.encloseSelection("\\textbf{", "}") }
+	}
+}
 
 // em
 jsToolBar.prototype.elements.em = {
 	type: 'button',
-	title: 'Emphasized',
+	title: 'Italic',
 	fn: {
-		wiki: function() { this.singleTag("((*", "*))") }
+		wiki: function()  { this.encloseSelection("\\textit{", "}") }
 	}
 }
+
+// ins
+jsToolBar.prototype.elements.ins = {
+	type: 'button',
+	title: 'Underline',
+	fn: {
+		wiki: function() { this.encloseSelection("\\underline{", "}") }
+	}
+}
+
+
 
 // code
 jsToolBar.prototype.elements.code = {
 	type: 'button',
-	title: 'Code',
+	title: 'Math',
 	fn: {
-		wiki: function() { this.singleTag('(({', '}))') }
+		wiki: function() { this.singleTag('$') }
 	}
 }
-
-// kbd
-jsToolBar.prototype.elements.kbd = {
-	type: 'button',
-	title: 'Keyboard',
-	fn: {
-		wiki: function() { this.singleTag('((%', '%))') }
-	}
-}
-
-// var
-jsToolBar.prototype.elements['var'] = {
-	type: 'button',
-	title: 'Variable',
-	fn: {
-		wiki: function() { this.singleTag('((|', '|))') }
-	}
-}
-
 
 // spacer
 jsToolBar.prototype.elements.space1 = {type: 'space'}
@@ -43,38 +41,24 @@ jsToolBar.prototype.elements.space1 = {type: 'space'}
 // headings
 jsToolBar.prototype.elements.h1 = {
 	type: 'button',
-	title: 'Heading 1',
+	title: 'Part',
 	fn: {
-		wiki: function() { 
-		  this.encloseLineSelection('= ', '',function(str) {
-		    str = str.replace(/^=+\s+/, '')
-		    return str;
-		  });
-		}
+		wiki: function() { this.encloseSelection("\\part{", "}") }
 	}
 }
 jsToolBar.prototype.elements.h2 = {
 	type: 'button',
-	title: 'Heading 2',
+	title: 'Part',
 	fn: {
-		wiki: function() { 
-		  this.encloseLineSelection('== ', '',function(str) {
-		    str = str.replace(/^=+\.\s+/, '')
-		    return str;
-		  });
-		}
+		wiki: function() { this.encloseSelection("\\chapter{", "}") }
 	}
 }
-jsToolBar.prototype.elements.h3 = {
+
+jsToolBar.prototype.elements.h2 = {
 	type: 'button',
-	title: 'Heading 3',
+	title: 'Part',
 	fn: {
-		wiki: function() { 
-		  this.encloseLineSelection('=== ', '',function(str) {
-		    str = str.replace(/^=+\s+/, '')
-		    return str;
-		  });
-		}
+		wiki: function() { this.encloseSelection("\\section{", "}") }
 	}
 }
 
@@ -87,14 +71,9 @@ jsToolBar.prototype.elements.ul = {
 	title: 'Unordered list',
 	fn: {
 		wiki: function() {
-			this.encloseLineSelection('','',function(str) {
+			this.encloseLineSelection('\\begin{itemize}','\n\\end{itemize}',function(str) {
 				str = str.replace(/\r/g,'');
-        if (!str.match(/(\n|^)(?!\(\d+\))[^\s\*]/)) {
-          return str;
-        }
-        str = str.replace(/(\n|^)/g, "$1  ");
-        str = str.replace(/(\n|^)  (?!\(\d+\))([^\s\*])/g, "$1* $2");
-				return str;
+				return str.replace(/(\n|^)[#-]?\s*/g,"$1  \\item  ");
 			});
 		}
 	}
@@ -106,24 +85,9 @@ jsToolBar.prototype.elements.ol = {
 	title: 'Ordered list',
 	fn: {
 		wiki: function() {
-			this.encloseLineSelection('','',function(str) {
-        var i;
+			this.encloseLineSelection('\\begin{enumerate}','\n\\end{enumerate}',function(str) {
 				str = str.replace(/\r/g,'');
-        if (!str.match(/(\n|^)(?!\(\d+\))[^\s\*]/)) {
-          i = 0;
-          str = str.gsub(/(\n|^)\(\d+\) /, function(matches) {
-            var num = "(" + (++i) + ") ";
-            return matches[1] + num;
-          });
-          return str;
-        }
-        str = str.replace(/(\n|^)/g, "$1    ");
-        i = 0;
-        str = str.gsub(/(\n|^)    (?!\(\d+\))([^\s\*])/, function(matches){
-          var num = "(" + (++i) + ") ";
-          return matches[1] + num + matches[2];
-        });
-        return str;
+				return str.replace(/(\n|^)[#-]?\s*/g,"$1  \\item  ");
 			});
 		}
 	}
@@ -132,43 +96,14 @@ jsToolBar.prototype.elements.ol = {
 // spacer
 jsToolBar.prototype.elements.space3 = {type: 'space'}
 
-// pre
-jsToolBar.prototype.elements.pre = {
-	type: 'button',
-	title: 'Preformatted',
-	fn: {
-		wiki: function() {
-			this.encloseLineSelection('','',function(str) {
-				str = str.replace(/\r/g,'');
-				return str.replace(/(\n|^) *([^\n]*)/g,"$1 $2");
-			});
-		}
-	}
-}
 
-// unpre
-jsToolBar.prototype.elements.unpre = {
-	type: 'button',
-	title: 'Un-preformatted',
-	fn: {
-		wiki: function() {
-			this.encloseLineSelection('','',function(str) {
-				str = str.replace(/\r/g,'');
-				return str.replace(/(\n|^) *([^\n]*)/g,"$1$2");
-			});
-		}
-	}
-}
-
-// spacer
-jsToolBar.prototype.elements.space4 = {type: 'space'}
 
 // wiki page
 jsToolBar.prototype.elements.link = {
 	type: 'button',
-	title: 'Wiki link',
+	title: 'Include',
 	fn: {
-		wiki: function() { this.encloseSelection("[[", "]]") }
+		wiki: function() { this.encloseSelection("\\input{", "}") }
 	}
 }
 // image
@@ -176,6 +111,6 @@ jsToolBar.prototype.elements.img = {
 	type: 'button',
 	title: 'Image',
 	fn: {
-          wiki: function() { this.encloseSelection("\\includegraphics[width=60mm]{","}") }
+          wiki: function() { this.encloseSelection("\\includegraphics[width=125mm]{","}") }
 	}
 }

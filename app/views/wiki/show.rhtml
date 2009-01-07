@@ -7,8 +7,8 @@
 <%= link_to_if_authorized(l(:button_delete), {:action => 'destroy', :page => @page.title}, :method => :post, :confirm => l(:text_are_you_sure), :class => 'icon icon-del') %>
 <%= link_to_if_authorized(l(:button_rollback), {:action => 'edit', :page => @page.title, :version => @content.version }, :class => 'icon icon-cancel') if @content.version < @page.content.version %>
 <% end %>
-<%= link_to('latex2html', {:controller=>'latex',:action => 'to_html',:id=>@wiki.id, :page => @page.title}, :class => 'icon icon-tex') %>
-
+<%= link_to('latex2html', {:controller=>'latex',:action => 'to_html',:id=>@wiki.id, :page => @page.title}, :class => 'icon icon-html') %>
+<%= link_to('latex2pdf', {:controller=>'latex',:action => 'to_pdf',:id=>@wiki.id, :page => @page.title}, :class => 'icon icon-pdf') %>
 <%= link_to_if_authorized(l(:label_history), {:action => 'history', :page => @page.title}, :class => 'icon icon-history') %>
 </div>
 

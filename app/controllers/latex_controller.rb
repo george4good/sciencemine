@@ -27,7 +27,7 @@ class LatexController < ApplicationController
     text= page.text
     
     text.gsub!(/\\includegraphics([^\{]*)\{(.*?)\}/) do |data|
-      saved_file = project.attachments.find(:first,:conditions=>{:filename=>$2})
+      saved_file = project.attachments.find(:first,:conditions=>{:filename=>$2}) || page.attachments.find(:first,:conditions=>{:filename=>$2})
       new_name=(saved_file.blank?)? '../../images/false.png':saved_file.diskfile
       "\\includegraphics#{$1}{#{new_name}}"
     end
