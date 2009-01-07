@@ -13,7 +13,7 @@ class LatexController < ApplicationController
     path = File.join(RAILS_ROOT,"public","latex",@start_page.wiki.id.to_s)
     
     Dir.chdir(path)
-    @results = %x[pdflatex #{@start_page.title+".tex"}]
+    @results = %x[pdflatex -halt-on-error  #{@start_page.title+".tex"}]
     @preview_url = File.join("latex",@start_page.wiki.id.to_s,@start_page.title+".pdf")
     render :action=>'to_html'
   end
