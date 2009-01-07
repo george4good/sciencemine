@@ -48,15 +48,15 @@ jsToolBar.prototype.elements.h1 = {
 }
 jsToolBar.prototype.elements.h2 = {
 	type: 'button',
-	title: 'Part',
+	title: 'chapter',
 	fn: {
 		wiki: function() { this.encloseSelection("\\chapter{", "}") }
 	}
 }
 
-jsToolBar.prototype.elements.h2 = {
+jsToolBar.prototype.elements.h3 = {
 	type: 'button',
-	title: 'Part',
+	title: 'Section',
 	fn: {
 		wiki: function() { this.encloseSelection("\\section{", "}") }
 	}

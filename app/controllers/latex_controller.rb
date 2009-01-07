@@ -18,7 +18,7 @@ class LatexController < ApplicationController
     render :action=>'to_html'
   end
   private
-  def save_page page,seen=[]
+  def save_page page,seen=[],exp_name=nil
     project = Project.find(params[:id])
     return if seen.include?(page)
     seen<<page
@@ -31,12 +31,13 @@ class LatexController < ApplicationController
       new_name=(saved_file.blank?)? '../../images/false.png':saved_file.diskfile
       "\\includegraphics#{$1}{#{new_name}}"
     end
+    exp_name||=page.title
     text = Iconv.iconv("KOI8-R","UTF-8",text).to_s
-    File.open(File.join(path,page.title+".tex"), "w") { |f|f.write(text);f.close();  }
+    File.open(File.join(path,exp_named+".tex"), "w") { |f|f.write(text);f.close();  }
     text.scan(/\\input\{(.*?)\}/).each do |data|
       sub_page= project.wiki.find_page(data[0])
 
-      save_page( sub_page,seen) if !sub_page.blank?
+      save_page( sub_page,seen,data[0]) if !sub_page.blank?
     end
 
   end
