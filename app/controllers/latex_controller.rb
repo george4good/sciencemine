@@ -3,7 +3,7 @@ class LatexController < ApplicationController
     @start_page =Project.find(params[:id]).wiki.find_page(params[:page])
     prepare_files(@start_page)
     path = File.join(RAILS_ROOT,"public","latex",@start_page.wiki.id.to_s,@start_page.title+".tex")
-    @results = %x[latex2html #{path}]
+    @results = %x[latex2html  -local_icons #{path}]
     @preview_url = File.join("latex",@start_page.wiki.id.to_s,@start_page.title,@start_page.title+".html")
 
   end
@@ -14,6 +14,7 @@ class LatexController < ApplicationController
     
     Dir.chdir(path)
     @results = %x[pdflatex -halt-on-error  #{@start_page.title+".tex"}]
+    @results = %x[pdflatex -halt-on-error  #{@start_page.title+".tex"}]
     @preview_url = File.join("latex",@start_page.wiki.id.to_s,@start_page.title+".pdf")
     render :action=>'to_html'
   end
@@ -21,7 +22,7 @@ class LatexController < ApplicationController
   def save_page page,seen=[],exp_name=nil
     project = Project.find(params[:id])
     return if seen.include?(page)
-    seen<<page
+    seen<< page
     path = File.join(RAILS_ROOT,"public","latex",page.wiki.id.to_s)
     FileUtils.mkdir_p(path);
     text= page.text
@@ -33,7 +34,7 @@ class LatexController < ApplicationController
     end
     exp_name||=page.title
     text = Iconv.iconv("KOI8-R","UTF-8",text).to_s
-    File.open(File.join(path,exp_named+".tex"), "w") { |f|f.write(text);f.close();  }
+    File.open(File.join(path,exp_name+".tex"), "w") { |f|f.write(text);f.close();  }
     text.scan(/\\input\{(.*?)\}/).each do |data|
       sub_page= project.wiki.find_page(data[0])
 
@@ -42,6 +43,8 @@ class LatexController < ApplicationController
 
   end
   def prepare_files start_page
+    path = File.join(RAILS_ROOT,"public","latex",start_page.wiki.id.to_s)
+    #FileUtils.rm path, :force=>true
     save_page start_page
 
   end

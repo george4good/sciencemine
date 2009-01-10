@@ -1,0 +1,165 @@
+<style >
+
+  div.autocomplete ul {
+    border:1px solid #888;
+    margin:0;
+    padding:0;
+    width:100%;
+    list-style-type:none;
+  }
+  div.autocomplete ul li {
+    margin:0;
+    padding:0px;
+    font-size: 10pt;
+  }
+  div.autocomplete ul li.selected {
+    background-color: #bbb;
+  }
+  div.autocomplete ul strong.highlight {
+    color: #800;
+    margin:0;
+    padding:0;
+  }
+
+  div.autocomplete {
+    margin:0px;
+    padding:0px;
+    width:250px;
+    background:#fff;
+    border:1px solid #888;
+    position:absolute;
+  }
+
+  div.autocomplete ul {
+    margin:0px;
+    padding:0px;
+    list-style-type:none;
+  }
+
+  div.autocomplete ul li.selected {
+    background-color:#ffb;
+  }
+
+  div.autocomplete ul li {
+    margin:0;
+    padding:2px;
+    height:32px;
+    display:block;
+    list-style-type:none;
+    cursor:pointer;
+  }
+
+  div.autocomplete ul {
+    border:1px solid #888;
+    margin:0;
+    padding:0;
+    width:100%;
+    list-style-type:none;
+  }
+  div.autocomplete ul li {
+    margin:0;
+    padding:0px;
+    font-size: 10pt;
+  }
+  div.autocomplete ul li.selected {
+    background-color: #bbb;
+  }
+  div.autocomplete ul strong.highlight {
+    color: #800;
+    margin:0;
+    padding:0;
+  }
+
+
+
+</style>
+
+<p id="text_areas" >
+  <label for="bands_from_the_70s">Your favorite rock  band from the 70's:</label>
+  <br />
+  <textarea id="bands_from_the_70s" autocomplete="off" size="40" cols="50" rows="10" >
+
+  </textarea>
+</p>
+
+<div class="autocomplete" id="band_list" style="display:none"></div>
+
+<script >
+  var bandsList = [
+    'ABBA',
+    'AC/DC',
+    'Aerosmith',
+    'America',
+    'Bay City Rollers',
+    'Black Sabbath',
+    'Boston',
+    'David Bowie',
+    'Can',
+    'The Carpenters',
+    'Chicago',
+    'The Commodores',
+    'Crass',
+    'Deep Purple',
+    'The Doobie Brothers',
+    'Eagles',
+    'Fleetwood Mac',
+    'Haciendo Punto en Otro Son',
+    'Heart',
+    'Iggy Pop and the Stooges',
+    'Journey',
+    'Judas Priest',
+    'KC and the Sunshine Band',
+    'Kiss',
+    'Kraftwerk',
+    'Led Zeppelin',
+    'Lindisfarne (band)',
+    'Lipps, Inc',
+    'Lynyrd Skynyrd',
+    'Pink Floyd',
+    'Queen',
+    'Ramones',
+    'REO Speedwagon',
+    'Rhythm Heritage',
+    'Rush',
+    'Sex Pistols',
+    'Slade',
+    'Steely Dan',
+    'Stillwater',
+    'Styx',
+    'Supertramp',
+    'Sweet',
+    'Three Dog Night',
+    'The Village People',
+    'Wings (fronted by former Beatle Paul McCartney)',
+    'Yes'
+  ];
+
+  console.log('hi!');
+  function setSelRange(inputEl, selStart, selEnd) {
+    if (inputEl.setSelectionRange) {
+      inputEl.focus();
+      inputEl.setSelectionRange(selStart, selEnd);
+    } else if (inputEl.createTextRange) {
+      var range = inputEl.createTextRange();
+      range.collapse(true);
+      range.moveEnd('character', selEnd);
+      range.moveStart('character', selStart);
+      range.select();
+    }
+  }
+  new Autocompleter.Local('bands_from_the_70s', 'band_list', bandsList, {
+
+    afterUpdateElement:function(){$('bands_from_the_70s').focus();},onShow:    function(element, update){
+      if(!update.style.position || update.style.position=='absolute') {
+        update.style.position = 'absolute';
+        Position.clone(element.up(), update, {
+          setHeight: false,
+          offsetLeft: element.offsetWidth
+        });
+      }
+      Effect.Appear(update,{duration:0.15});
+    } });
+
+
+</script>
+

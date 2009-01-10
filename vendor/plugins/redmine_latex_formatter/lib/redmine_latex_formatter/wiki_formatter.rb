@@ -3,6 +3,9 @@ require 'rd/visitor'
 require 'rd/version'
 require 'rd/rd2html-lib'
 require 'uv'
+require 'terminator'
+require 'digest/md5'
+
 
 module RedmineLatexFormatter
   class WikiFormatter
@@ -17,6 +20,20 @@ module RedmineLatexFormatter
 
     def initialize(text)
       @text = text
+    end
+    def dinamic_preview text
+      hash = "latex_render_"+Digest::MD5.hexdigest(text)
+      res = CACHE[hash]
+      return res unless res.blank?
+
+      path = File.join(RAILS_ROOT,"tmp","latex_html_render",hash)
+      in_file_name = File.join(path,"in.html")
+      FileUtils.mkdir_p(path);
+      File.open(in_file_name,"w"){|in_file|
+        in_file.write(text)
+        in_file.close }
+      
+
     end
     def to_html(&block)
       data =  @text

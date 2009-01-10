@@ -232,12 +232,24 @@ Autocompleter.Base = Class.create({
     this.active = false;
     this.updateElement(this.getCurrentEntry());
   },
-
+ setSelRange: function(inputEl, selStart, selEnd) {
+    if (inputEl.setSelectionRange) {
+      inputEl.focus();
+      inputEl.setSelectionRange(selStart, selEnd);
+    } else if (inputEl.createTextRange) {
+      var range = inputEl.createTextRange();
+      range.collapse(true);
+      range.moveEnd('character', selEnd);
+      range.moveStart('character', selStart);
+      range.select();
+    }
+  },
   updateElement: function(selectedElement) {
     if (this.options.updateElement) {
       this.options.updateElement(selectedElement);
       return;
     }
+    var scroll_top = this.element.scrollTop;
     var value = '';
     if (this.options.select) {
       var nodes = $(selectedElement).select('.' + this.options.select) || [];
@@ -248,16 +260,29 @@ Autocompleter.Base = Class.create({
     var bounds = this.getTokenBounds();
     if (bounds[0] != -1) {
       var newValue = this.element.value.substr(0, bounds[0]);
+
       var whitespace = this.element.value.substr(bounds[0]).match(/^\s+/);
       if (whitespace)
         newValue += whitespace[0];
-      this.element.value = newValue + value + this.element.value.substr(bounds[1]);
+      var or_value = value;
+      var cursor_shift=0;
+      if(value.indexOf('^')>=0)
+          {
+              cursor_shift= value.lastIndexOf('^')-value.length+1;
+              value=value.replace('^','')
+          }
+
+      this.element.value = newValue + value+ this.element.value.substr(bounds[1]);
+      cursor_shift+=( newValue + value).length;
+      this.setSelRange(this.element,cursor_shift,cursor_shift);
     } else {
       this.element.value = value;
+
     }
     this.oldElementValue = this.element.value;
+    this.element.scrollTop = scroll_top;
     this.element.focus();
-    
+
     if (this.options.afterUpdateElement)
       this.options.afterUpdateElement(this.element, selectedElement);
   },
